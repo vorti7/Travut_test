@@ -1,0 +1,6 @@
+type ExtraUserInfo @model @auth(rules: [{ allow: owner }]) {
+  id: ID!
+  name: String!
+  gender: String
+  somethinglist: [String]
+}
