@@ -1,15 +1,16 @@
 import React from 'react';
-import {StyleSheet, View, Text, TouchableOpacity, Image} from 'react-native';
+import {Platform, StyleSheet, View, Text, TouchableOpacity, Image} from 'react-native';
 
-import Amplify, { Auth, Storage } from 'aws-amplify';
+import Amplify, { Auth, Storage, API, graphqlOperation } from 'aws-amplify';
 
 import aws_config from '../aws-exports';
 
 import ImagePicker from 'react-native-image-picker'
 import RNFetchBlob from 'rn-fetch-blob';
 import { Buffer } from "buffer";
+import { RNS3 } from 'react-native-aws3';
+import * as mutations from '../graphql/mutations';
 
-// import { RNS3 } from 'react-native-aws3';
 
 console.log("\n\n*************************TestS3Page Started*************************\n\n")
 
@@ -26,6 +27,11 @@ export class TestS3Page extends React.Component{
       };
     }
     readFile(filePath) {
+      if (Platform.OS === 'ios') {
+        let arr = filePath.split('/')
+        const dirs = RNFetchBlob.fs.dirs
+        filePath = `${dirs.DocumentDir}/${arr[arr.length - 1]}`
+      }
       return RNFetchBlob.fs.readFile(filePath, 'base64').then(data => new Buffer(data, 'base64'));
     } 
     takePic(){
@@ -45,6 +51,30 @@ export class TestS3Page extends React.Component{
             console.log(e);
         });
       })
+    }
+
+    
+    
+    takePic2(){      
+        ImagePicker.showImagePicker({}, (response)=>{
+          console.log(response)
+          this.setState({
+            putImageSource: response.uri,
+            imageName:response.fileName
+          })
+  
+          API.graphql(graphqlOperation(mutations.createPicture, { input: {
+            userId: "testuser00@test.com",
+            username: "testuser00",
+            file: {
+              bucket: aws_config.aws_user_files_s3_bucket,
+              region: aws_config.aws_user_files_s3_bucket_region,
+              key: response.fileName,
+              uri: "https://s3.ap-northeast-1.amazonaws.com/tests3"
+            }
+          }}));
+          
+        })
     }
 
     getPic(){
@@ -84,6 +114,9 @@ export class TestS3Page extends React.Component{
             <Image source={{uri:this.state.putImageSource}} style={{ width: 100, height: 100 }}/>
              <TouchableOpacity onPress = {this.takePic.bind(this)}>
                <Text>Take picture</Text>
+             </TouchableOpacity>
+             <TouchableOpacity onPress = {this.takePic2.bind(this)}>
+               <Text>Take picture(appsync)</Text>
              </TouchableOpacity>
              <TouchableOpacity onPress = {this.getPic.bind(this)}>
                <Text>Get picture</Text>

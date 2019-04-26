@@ -28,3 +28,45 @@ export const onDeleteExtraUserInfo = `subscription OnDeleteExtraUserInfo {
   }
 }
 `;
+export const onCreatePicture = `subscription OnCreatePicture {
+  onCreatePicture {
+    id
+    userId
+    username
+    file {
+      bucket
+      region
+      key
+      uri
+    }
+  }
+}
+`;
+export const onUpdatePicture = `subscription OnUpdatePicture {
+  onUpdatePicture {
+    id
+    userId
+    username
+    file {
+      bucket
+      region
+      key
+      uri
+    }
+  }
+}
+`;
+export const onDeletePicture = `subscription OnDeletePicture {
+  onDeletePicture {
+    id
+    userId
+    username
+    file {
+      bucket
+      region
+      key
+      uri
+    }
+  }
+}
+`;

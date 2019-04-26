@@ -1,7 +1,7 @@
 import React from 'react';
-import {StyleSheet, Text, View, TextInput, TouchableHighlight, Alert} from 'react-native';
+import {StyleSheet, Text, View, TextInput, TouchableHighlight} from 'react-native';
 
-import Amplify, { Auth, API, graphqlOperation } from 'aws-amplify';
+import Amplify, { API, graphqlOperation } from 'aws-amplify';
 import aws_config from '../aws-exports';
 
 import * as mutations from '../graphql/mutations';
