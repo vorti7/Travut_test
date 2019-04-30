@@ -20,10 +20,16 @@ async function signupTraveler(signupInfo){
 }
 
 function loginTraveler(loginEmail, loginPassword){
+    // console.log(loginEmail, loginPassword)
     Auth.signIn(loginEmail, loginPassword)
-            .then(success => {Alert.alert('successful sign in');
-            this.props.navigation.navigate('Main')})
-            .catch(err => console.log(err));
+            .then(success => {
+                console.log('\nlogin success\n'+JSON.stringify(success))
+                return ""
+            })
+            .catch(err => {
+                console.log('\nlogin failed\n'+JSON.stringify(err))
+                return err.message
+            });
 }
 
 function logoutTraveler(){
@@ -32,3 +38,4 @@ function logoutTraveler(){
             .catch(err => console.log(err));
 }
 
+export { loginTraveler }

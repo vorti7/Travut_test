@@ -18,6 +18,8 @@ import ReadExtraInfoPage from './src/components/ReadExtraInfoPage'
 import TestS3Page from './src/components/TestS3Page'
 
 import LoginTravelerPage from './src/components/LoginTraveler'
+import SignupTravelerPage from './src/components/SignupTraveler'
+import LoginFacebookPage from './src/components/LoginFacebook'
 
 
 const AppNavigator = createStackNavigator(
@@ -29,7 +31,9 @@ const AppNavigator = createStackNavigator(
     UpdateExtraInfo: UpdateExtraInfoPage,
     ReadExtraInfo: ReadExtraInfoPage,
     TestS3: TestS3Page,
-    LoginTraveler: LoginTravelerPage
+    LoginTraveler: LoginTravelerPage,
+    SignupTraveler: SignupTravelerPage,
+    LoginFacebook: LoginFacebookPage
   },
   {
     initialRouteName: "LoginTraveler"

@@ -1,7 +1,34 @@
-import React from 'react';
-import {StyleSheet, Text, View, TextInput, TouchableHighlight} from 'react-native';
+import React, { Component } from 'react';
+import {StyleSheet, Text, View, TextInput, TouchableHighlight, Alert} from 'react-native';
+import { Auth } from 'aws-amplify';
 
-const SignupForm = () => {
+class SignupForm extends Component{
+  constructor(props) {
+      super(props);
+
+      this.state = {
+        emailState : '',
+        passwordState : '',
+        passwordCheckState : '',
+        nameState : ''   
+    };
+  }
+  signup(){
+    if(this.state.passwordState != this.state.passwordCheckState){
+      Alert.alert("Password does not match.")
+    }else{
+      console.log("Attempt Signup")
+      Auth.signUp({
+          username: this.state.emailState,
+          password: this.state.passwordState,
+          attributes: {
+            name: this.state.nameState,
+          }
+      }).then(data => {Alert.alert("Signup Success");console.log(data);})
+        .catch(err => Alert.alert(err.message))
+    }
+  }
+  render(){
     return (
         <View>
             <Text>Hello! this is Signup Form!</Text>
@@ -10,6 +37,7 @@ const SignupForm = () => {
                     placeholder="Email"
                     keyboardType="email-address"
                     underlineColorAndroid='transparent'
+                    textContentType='emailAddress'
                     onChangeText={(email) => this.setState({emailState: email})}/>
             </View>
     
@@ -36,20 +64,15 @@ const SignupForm = () => {
                     onChangeText={(name) => this.setState({nameState: name})}/>
             </View>
     
-            <TouchableHighlight style={styles.buttonContainer} onPress={}>
+            <TouchableHighlight style={styles.buttonContainer} onPress={this.signup.bind(this)}>
                 <Text>Sign Up!</Text>
             </TouchableHighlight>
         </View>
     )
+  }
 }
 
 const styles = StyleSheet.create({
-    container: {
-      flex: 1,
-      justifyContent: 'center',
-      alignItems: 'center',
-      backgroundColor: '#DCDCDC',
-    },
     inputContainer: {
         borderBottomColor: '#F5FCFF',
         backgroundColor: '#FFFFFF',
