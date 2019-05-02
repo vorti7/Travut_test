@@ -19,17 +19,21 @@ async function signupTraveler(signupInfo){
                                  .catch(err => console.log(err))
 }
 
+
+
 function loginTraveler(loginEmail, loginPassword){
     // console.log(loginEmail, loginPassword)
-    Auth.signIn(loginEmail, loginPassword)
+    return new Promise(function (resolve, reject){
+        Auth.signIn(loginEmail, loginPassword)
             .then(success => {
                 console.log('\nlogin success\n'+JSON.stringify(success))
-                return ""
+                resolve('success')
             })
             .catch(err => {
                 console.log('\nlogin failed\n'+JSON.stringify(err))
-                return err.message
+                reject(err.message)
             });
+    })
 }
 
 function logoutTraveler(){
@@ -38,4 +42,27 @@ function logoutTraveler(){
             .catch(err => console.log(err));
 }
 
-export { loginTraveler }
+function getInfoTraveler(){
+    Auth.currentAuthenticatedUser()
+            .then(data => console.log('currentAuthenticatedUser data : ',data))
+            .catch(err => {console.log('error : ',err,'\n\n')})
+    Auth.currentCredentials()
+            .then(data => console.log('currentCredentials data : ',data))
+            .catch(err => {console.log('error : ',err,'\n\n')})
+    Auth.currentSession()
+            .then(data => console.log('currentSession data : ',data))
+            .catch(err => {console.log('error : ',err,'\n\n')})
+    Auth.currentUserCredentials()
+            .then(data => console.log('currentUserCredentials data : ',data))
+            .catch(err => {console.log('error : ',err,'\n\n')})
+    Auth.currentUserInfo()
+            .then(data => console.log('currentUserInfo data : ',data))
+            .catch(err => {console.log('error : ',err,'\n\n')})
+    Auth.currentUserPoolUser()
+            .then(data => console.log('currentUserPoolUser data : ',data))
+            .catch(err => {console.log('error : ',err,'\n\n')})
+    
+
+}
+
+export { signupTraveler, loginTraveler, logoutTraveler, getInfoTraveler }

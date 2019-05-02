@@ -36,7 +36,7 @@ const AppNavigator = createStackNavigator(
     LoginFacebook: LoginFacebookPage
   },
   {
-    initialRouteName: "LoginTraveler"
+    initialRouteName: "Login"
   }
 );
 

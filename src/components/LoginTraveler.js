@@ -10,15 +10,13 @@ export class LoginTraveler extends React.Component{
           passwordState : ''
       };
     }
-    asyncsignin(){
-        console.log('sssss')
-        resultLogin = loginTraveler(this.state.emailState, this.state.passwordState)
-        console.log("----------",resultLogin)
-        if(!resultLogin){
-            Alert.alert(resultLogin)
-        }else{
-            Alert.alert('Login Success')
-        }
+    signin(){
+        loginTraveler(this.state.emailState, this.state.passwordState).then(function(loginData){
+            Alert.alert(loginData)
+            this.props.navigation.navigate('Main')
+        }).catch(function(err){
+            Alert.alert(err)
+        })
     }
     
     render(){
@@ -32,7 +30,6 @@ export class LoginTraveler extends React.Component{
                         underlineColorAndroid='transparent'
                         onChangeText={(email) => this.setState({emailState: email})}/>
                 </View>
-        
                 <View style={styles.inputContainer}>
                     <TextInput style={styles.inputs}
                         placeholder="Password"

@@ -4,6 +4,9 @@ import {StyleSheet, Text, View, TextInput, TouchableHighlight, Alert, Button} fr
 import Amplify, { Auth, API,graphqlOperation } from 'aws-amplify';
 import aws_config from '../aws-exports';
 import * as queries from '../graphql/queries';
+
+import { getInfoTraveler } from './AuthFunction'
+
 Amplify.configure(aws_config);
 
 
@@ -12,11 +15,7 @@ export class MainPage extends React.Component {
         super(props);
     }
     signinCheck(){
-        Auth.currentSession()
-            .then(data => console.log('data : ',data))
-            .catch(err => {console.log('error : ',err);
-            Alert.alert('Fail to get session');
-            this.props.navigation.navigate('Signin')});
+        getInfoTraveler()
     }
     signout(){
         Auth.signOut()
